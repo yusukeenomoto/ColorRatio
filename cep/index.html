@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>カラー係数</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <main class="panel">
+      <header class="titlebar">カラー係数</header>
+
+      <section class="content">
+        <section class="control-block">
+          <label class="label" for="coefficient">係数</label>
+          <div class="coefficient-row">
+            <input id="coefficient" type="number" min="0" max="5" step="0.01" value="1.00">
+            <input id="coefficientRange" type="range" min="0" max="300" step="1" value="100">
+          </div>
+
+          <div class="presets" aria-label="係数プリセット">
+            <button data-factor="0.1">10%</button>
+            <button data-factor="0.5">50%</button>
+            <button data-factor="1.5">150%</button>
+            <button data-factor="2">200%</button>
+          </div>
+
+          <div class="mode-grid">
+            <label class="label" for="colorFamily">色空間</label>
+            <select id="colorFamily">
+              <option value="all">すべて</option>
+              <option value="rgb">RGB</option>
+              <option value="cmyk">CMYK</option>
+              <option value="gray">Gray</option>
+              <option value="spot">SpotColor</option>
+            </select>
+            <label class="label" for="colorChannel">チャンネル</label>
+            <select id="colorChannel" disabled>
+              <option value="all">全体</option>
+            </select>
+          </div>
+
+          <div class="formula">
+            <div>結果 = 現在値 × 係数</div>
+            <div>RGB: 0-255 / CMYK・Gray・Tint: 0-100 に制限</div>
+          </div>
+        </section>
+
+        <section class="options">
+          <fieldset>
+            <legend>対象</legend>
+            <label><input id="applyFill" type="checkbox" checked> 塗り</label>
+            <label><input id="applyStroke" type="checkbox" checked> 線</label>
+            <label><input id="applyText" type="checkbox" checked> テキスト</label>
+            <label><input id="applyGradient" type="checkbox" checked> グラデーション停止色（線形/円形）</label>
+            <label><input id="applySpot" type="checkbox" checked> スポットカラー</label>
+          </fieldset>
+
+        </section>
+
+        <aside class="actions">
+          <button id="apply" class="primary">適用</button>
+          <button id="reset">リセット</button>
+        </aside>
+      </section>
+
+      <footer id="status" class="status">オブジェクトを選択して係数を指定してください。</footer>
+    </main>
+    <script src="./main.js"></script>
+  </body>
+</html>

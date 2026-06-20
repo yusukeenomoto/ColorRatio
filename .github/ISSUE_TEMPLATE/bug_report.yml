@@ -1,0 +1,52 @@
+name: Bug report
+description: 不具合やデータ破損を報告します
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: 問題の内容
+      description: 実際の結果と期待した結果を記載してください。
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 再現手順
+      placeholder: |
+        1. オブジェクトを選択
+        2. 係数を指定
+        3. 適用をクリック
+    validations:
+      required: true
+  - type: input
+    id: illustrator
+    attributes:
+      label: Illustratorバージョン
+    validations:
+      required: true
+  - type: input
+    id: macos
+    attributes:
+      label: macOSバージョン
+    validations:
+      required: true
+  - type: input
+    id: extension
+    attributes:
+      label: ColorRatioバージョン
+    validations:
+      required: true
+  - type: textarea
+    id: artwork
+    attributes:
+      label: オブジェクトと色の情報
+      description: オブジェクト、色空間、グラデーションなどの情報を記載してください。
+  - type: checkboxes
+    id: backup
+    attributes:
+      label: 確認事項
+      options:
+        - label: 再現用ファイルに個人情報や機密情報が含まれていないことを確認しました。
+          required: true

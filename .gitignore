@@ -1,0 +1,12 @@
+signing/
+dist/
+.DS_Store
+.AppleDouble
+.LSOverride
+*.p12
+*.pfx
+*.zxp
+.p12-password
+*.log
+.idea/
+.vscode/

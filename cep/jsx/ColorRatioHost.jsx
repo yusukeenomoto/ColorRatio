@@ -139,6 +139,11 @@ function ColorRatio_applyColorProperty(owner, propertyName, data, stats) {
     return;
   }
 
+  if (ColorRatio_isUnsupportedColor(color)) {
+    stats.skipped++;
+    return;
+  }
+
   if (!ColorRatio_colorMatchesMode(color, data)) {
     return;
   }
@@ -250,6 +255,10 @@ function ColorRatio_mapGradient(gradient, data, stats) {
   for (var i = 0; i < stopCount; i++) {
     try {
       var stopColor = gradient.gradientStops[i].color;
+      if (ColorRatio_isUnsupportedColor(stopColor)) {
+        stats.skipped++;
+        continue;
+      }
       if (!ColorRatio_colorMatchesMode(stopColor, data)) {
         continue;
       }
@@ -284,6 +293,21 @@ function ColorRatio_colorMatchesMode(color, data) {
       return ColorRatio_getTargets(data).spot && ColorRatio_shouldApplyColorMode(data, "spot");
     default:
       return false;
+  }
+}
+
+function ColorRatio_isUnsupportedColor(color) {
+  if (!color) return false;
+  switch (color.typename) {
+    case "RGBColor":
+    case "CMYKColor":
+    case "GrayColor":
+    case "SpotColor":
+    case "GradientColor":
+    case "NoColor":
+      return false;
+    default:
+      return true;
   }
 }
 

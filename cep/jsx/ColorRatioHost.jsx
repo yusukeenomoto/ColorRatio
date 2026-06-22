@@ -311,10 +311,12 @@ function ColorRatio_isGlobalProcessColor(color) {
   if (!color || color.typename !== "SpotColor") return false;
 
   try {
+    var colorType = color.spot.colorType;
     if (typeof ColorModel !== "undefined") {
-      return color.spot.colorType === ColorModel.PROCESS;
+      if (colorType == ColorModel.PROCESS) return true;
+      if (Number(colorType) === Number(ColorModel.PROCESS)) return true;
     }
-    return String(color.spot.colorType).toLowerCase().indexOf("process") >= 0;
+    return String(colorType).toLowerCase().indexOf("process") >= 0;
   } catch (e) {
     return false;
   }

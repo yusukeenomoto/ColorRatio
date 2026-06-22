@@ -30,7 +30,7 @@ macOSでUPIAを直接実行する場合:
 
 ```bash
 UPIA="/Library/Application Support/Adobe/Adobe Desktop Common/RemoteComponents/UPI/UnifiedPluginInstallerAgent/UnifiedPluginInstallerAgent.app/Contents/MacOS/UnifiedPluginInstallerAgent"
-"$UPIA" --install "/path/to/ColorRatio-1.0.0.zxp"
+"$UPIA" --install "/path/to/ColorRatio-1.0.1.zxp"
 ```
 
 ## 使い方
@@ -73,7 +73,7 @@ signing/.p12-password
 ```
 
 ```bash
-./scripts/package.sh 1.0.0
+./scripts/package.sh 1.0.1
 ```
 
 生成したZXPは`dist/`に出力され、署名検証とSHA-256の表示まで行われます。パスは環境変数`ZXP_SIGN_CMD`、`COLORRATIO_CERTIFICATE`、`COLORRATIO_PASSWORD_FILE`で変更できます。

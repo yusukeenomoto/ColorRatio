@@ -33,6 +33,25 @@ UPIA="/Library/Application Support/Adobe/Adobe Desktop Common/RemoteComponents/U
 "$UPIA" --install "/path/to/ColorRatio-1.0.1.zxp"
 ```
 
+## アンインストール
+
+1. Illustratorを終了します。
+2. Adobe Unified Plugin Installer Agent（UPIA）でColorRatioを削除します。
+3. Illustratorを起動し、`ウィンドウ > エクステンション`にカラー係数が表示されないことを確認します。
+
+macOSでUPIAを直接実行する場合:
+
+```bash
+UPIA="/Library/Application Support/Adobe/Adobe Desktop Common/RemoteComponents/UPI/UnifiedPluginInstallerAgent/UnifiedPluginInstallerAgent.app/Contents/MacOS/UnifiedPluginInstallerAgent"
+"$UPIA" --remove "ColorRatio"
+```
+
+開発版を手動配置した場合は、Illustratorを終了してから次のディレクトリを削除してください。
+
+```text
+~/Library/Application Support/Adobe/CEP/extensions/ColorRatio
+```
+
 ## 使い方
 
 1. Illustrator上でオブジェクトを選択します。

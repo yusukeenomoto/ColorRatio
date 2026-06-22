@@ -8,7 +8,7 @@ body {
   width: 100vw;
   height: 100vh;
   min-width: 390px;
-  min-height: 220px;
+  min-height: 196px;
   overflow: hidden;
   color: #eeeeee;
   background: #343434;
@@ -70,18 +70,8 @@ input[type="radio"] {
 .panel {
   height: 100vh;
   display: grid;
-  grid-template-rows: 24px 1fr 22px;
+  grid-template-rows: 1fr 22px;
   background: linear-gradient(#565656, #494949);
-}
-
-.titlebar {
-  height: 24px;
-  display: grid;
-  place-items: center;
-  border-bottom: 1px solid #252525;
-  color: #dddddd;
-  font-size: 12px;
-  font-weight: 700;
 }
 
 .content {
@@ -89,7 +79,7 @@ input[type="radio"] {
   grid-template-columns: minmax(210px, 1fr) 138px 74px;
   gap: 9px;
   min-height: 0;
-  padding: 9px;
+  padding: 10px 9px 8px;
 }
 
 .label,

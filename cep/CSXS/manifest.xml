@@ -32,10 +32,6 @@
               <Width>480</Width>
               <Height>245</Height>
             </Size>
-            <MinSize>
-              <Width>390</Width>
-              <Height>220</Height>
-            </MinSize>
           </Geometry>
         </UI>
       </DispatchInfo>

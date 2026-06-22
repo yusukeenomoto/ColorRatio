@@ -219,6 +219,13 @@ function ColorRatio_mapColor(color, data, stats) {
       }
       return color;
     case "SpotColor":
+      if (ColorRatio_isGlobalProcessColor(color)) {
+        var expandedColor = ColorRatio_expandGlobalColor(color);
+        if (expandedColor && ColorRatio_colorMatchesMode(expandedColor, data)) {
+          return ColorRatio_mapColor(expandedColor, data, stats);
+        }
+        return color;
+      }
       if (ColorRatio_getTargets(data).spot && ColorRatio_shouldApplyColorMode(data, "spot")) {
         color.tint = ColorRatio_mapPercent(color.tint, data);
         stats.colors++;
@@ -290,9 +297,58 @@ function ColorRatio_colorMatchesMode(color, data) {
     case "GrayColor":
       return ColorRatio_shouldApplyColorMode(data, "gray");
     case "SpotColor":
+      if (ColorRatio_isGlobalProcessColor(color)) {
+        var expandedColor = ColorRatio_expandGlobalColor(color);
+        return expandedColor ? ColorRatio_colorMatchesMode(expandedColor, data) : false;
+      }
       return ColorRatio_getTargets(data).spot && ColorRatio_shouldApplyColorMode(data, "spot");
     default:
       return false;
+  }
+}
+
+function ColorRatio_isGlobalProcessColor(color) {
+  if (!color || color.typename !== "SpotColor") return false;
+
+  try {
+    if (typeof ColorModel !== "undefined") {
+      return color.spot.colorType === ColorModel.PROCESS;
+    }
+    return String(color.spot.colorType).toLowerCase().indexOf("process") >= 0;
+  } catch (e) {
+    return false;
+  }
+}
+
+function ColorRatio_expandGlobalColor(spotColor) {
+  try {
+    var source = spotColor.spot.color;
+    var tint = ColorRatio_clamp(Number(spotColor.tint), 0, 100) / 100;
+    var expanded;
+
+    switch (source.typename) {
+      case "RGBColor":
+        expanded = new RGBColor();
+        expanded.red = 255 - (255 - Number(source.red)) * tint;
+        expanded.green = 255 - (255 - Number(source.green)) * tint;
+        expanded.blue = 255 - (255 - Number(source.blue)) * tint;
+        return expanded;
+      case "CMYKColor":
+        expanded = new CMYKColor();
+        expanded.cyan = Number(source.cyan) * tint;
+        expanded.magenta = Number(source.magenta) * tint;
+        expanded.yellow = Number(source.yellow) * tint;
+        expanded.black = Number(source.black) * tint;
+        return expanded;
+      case "GrayColor":
+        expanded = new GrayColor();
+        expanded.gray = Number(source.gray) * tint;
+        return expanded;
+      default:
+        return null;
+    }
+  } catch (e) {
+    return null;
   }
 }
 

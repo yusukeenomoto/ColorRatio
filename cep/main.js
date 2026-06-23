@@ -15,10 +15,10 @@
   var status = document.getElementById("status");
   var presetButtons = document.querySelectorAll("[data-factor]");
 
-  function getPayload() {
+  function getPayload(coefficientValue) {
     return {
       mode: "coefficient",
-      coefficient: getCoefficient(),
+      coefficient: coefficientValue,
       targets: {
         fill: applyFill.checked,
         stroke: applyStroke.checked,
@@ -58,12 +58,16 @@
     colorChannel.disabled = family !== "rgb" && family !== "cmyk";
   }
 
-  function getCoefficient() {
+  function validateCoefficient() {
     var value = Number(coefficient.value);
-    if (isNaN(value)) {
-      value = 1;
+    if (coefficient.value === "" || isNaN(value) || value < 0.01 || value > 5) {
+      window.alert("対象外の値が入力されました。");
+      setStatus("1%以上500%以下の値を入力してください。");
+      coefficient.focus();
+      coefficient.select();
+      return null;
     }
-    return clamp(value, 0, 5);
+    return value;
   }
 
   function setCoefficient(value) {
@@ -73,7 +77,11 @@
   }
 
   function applyCoefficient() {
-    var payload = JSON.stringify(getPayload());
+    var coefficientValue = validateCoefficient();
+    if (coefficientValue === null) {
+      return;
+    }
+    var payload = JSON.stringify(getPayload(coefficientValue));
 
     if (window.__adobe_cep__ && window.__adobe_cep__.evalScript) {
       setStatus("Illustrator に適用中...");
@@ -119,7 +127,10 @@
   }
 
   coefficient.addEventListener("change", function () {
-    setCoefficient(coefficient.value);
+    var value = validateCoefficient();
+    if (value !== null) {
+      setCoefficient(value);
+    }
   });
 
   coefficientRange.addEventListener("input", function () {

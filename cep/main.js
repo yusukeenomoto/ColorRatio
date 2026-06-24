@@ -14,6 +14,7 @@
   var resetButton = document.getElementById("reset");
   var status = document.getElementById("status");
   var presetButtons = document.querySelectorAll("[data-factor]");
+  var lastCoefficientWheelAt = 0;
 
   function getPayload(coefficientValue) {
     return {
@@ -71,9 +72,29 @@
   }
 
   function setCoefficient(value) {
-    var normalized = clamp(Number(value), 0, 5);
+    var normalized = clamp(Number(value), 0.01, 5);
     coefficient.value = normalized.toFixed(2);
     coefficientRange.value = String(Math.round(normalized * 100));
+  }
+
+  function stepCoefficientByWheel(event) {
+    if (document.activeElement !== coefficient) {
+      return;
+    }
+
+    event.preventDefault();
+
+    var now = Date.now();
+    if (now - lastCoefficientWheelAt < 80) {
+      return;
+    }
+    lastCoefficientWheelAt = now;
+
+    var current = Number(coefficient.value);
+    if (isNaN(current)) {
+      current = 1;
+    }
+    setCoefficient(current + (event.deltaY < 0 ? 0.01 : -0.01));
   }
 
   function applyCoefficient() {
@@ -132,6 +153,7 @@
       setCoefficient(value);
     }
   });
+  coefficient.addEventListener("wheel", stepCoefficientByWheel, false);
 
   coefficientRange.addEventListener("input", function () {
     setCoefficient(Number(coefficientRange.value) / 100);

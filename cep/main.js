@@ -78,7 +78,7 @@
   }
 
   function stepCoefficientByWheel(event) {
-    if (document.activeElement !== coefficient) {
+    if (event.target !== coefficient && document.activeElement !== coefficient) {
       return;
     }
 
@@ -94,7 +94,16 @@
     if (isNaN(current)) {
       current = 1;
     }
-    setCoefficient(current + (event.deltaY < 0 ? 0.01 : -0.01));
+    var delta = typeof event.deltaY === "number" ? event.deltaY : -event.wheelDelta;
+    setCoefficient(current + (delta < 0 ? 0.01 : -0.01));
+  }
+
+  function addCoefficientWheelListener(type) {
+    try {
+      coefficient.addEventListener(type, stepCoefficientByWheel, { passive: false });
+    } catch (error) {
+      coefficient.addEventListener(type, stepCoefficientByWheel, false);
+    }
   }
 
   function applyCoefficient() {
@@ -153,7 +162,8 @@
       setCoefficient(value);
     }
   });
-  coefficient.addEventListener("wheel", stepCoefficientByWheel, false);
+  addCoefficientWheelListener("wheel");
+  addCoefficientWheelListener("mousewheel");
 
   coefficientRange.addEventListener("input", function () {
     setCoefficient(Number(coefficientRange.value) / 100);

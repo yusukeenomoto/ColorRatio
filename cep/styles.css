@@ -162,4 +162,11 @@ fieldset label {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  background: transparent;
+  transition: background-color 260ms ease, color 260ms ease;
+}
+
+.status.status-success {
+  color: #ffffff;
+  background: #4f7f62;
 }

@@ -15,6 +15,7 @@
   var status = document.getElementById("status");
   var presetButtons = document.querySelectorAll("[data-factor]");
   var lastCoefficientWheelAt = 0;
+  var statusHighlightTimer = null;
 
   function getPayload(coefficientValue) {
     return {
@@ -119,7 +120,8 @@
         window.__adobe_cep__.evalScript(
           'ColorRatio_applySelected(' + JSON.stringify(payload) + ')',
           function (result) {
-            setStatus(result || "完了しました。");
+            var message = result || "完了しました。";
+            setStatus(message, { success: isSuccessfulApplyResult(message) });
           }
         );
       });
@@ -148,8 +150,29 @@
     });
   }
 
-  function setStatus(message) {
+  function setStatus(message, options) {
     status.textContent = message;
+    if (options && options.success) {
+      flashStatusSuccess();
+    }
+  }
+
+  function flashStatusSuccess() {
+    if (statusHighlightTimer) {
+      clearTimeout(statusHighlightTimer);
+    }
+    status.classList.remove("status-success");
+    status.offsetWidth;
+    status.classList.add("status-success");
+    statusHighlightTimer = setTimeout(function () {
+      status.classList.remove("status-success");
+      statusHighlightTimer = null;
+    }, 900);
+  }
+
+  function isSuccessfulApplyResult(message) {
+    var match = /^適用完了: ([1-9][0-9]*) 色/.exec(message);
+    return !!match && message.indexOf("スキップ") === -1 && message.indexOf("エラー") === -1;
   }
 
   function clamp(value, min, max) {

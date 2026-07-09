@@ -3,7 +3,7 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-VERSION="${1:-1.0.2}"
+VERSION="${1:-1.0.3}"
 ZXP_SIGN_CMD="${ZXP_SIGN_CMD:-$HOME/CEP-Resources/ZXPSignCMD/4.1.3/macOS/ZXPSignCmd}"
 CERTIFICATE="${COLORRATIO_CERTIFICATE:-$ROOT_DIR/signing/ColorRatio.p12}"
 PASSWORD_FILE="${COLORRATIO_PASSWORD_FILE:-$ROOT_DIR/signing/.p12-password}"

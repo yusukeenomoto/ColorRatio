@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ExtensionManifest Version="7.0" ExtensionBundleId="com.eeenoooo.illustrator.colorratio" ExtensionBundleVersion="1.0.2" ExtensionBundleName="ColorRatio">
+<ExtensionManifest Version="7.0" ExtensionBundleId="com.eeenoooo.illustrator.colorratio" ExtensionBundleVersion="1.0.3" ExtensionBundleName="ColorRatio">
   <ExtensionList>
-    <Extension Id="com.eeenoooo.illustrator.colorratio.panel" Version="1.0.2"/>
+    <Extension Id="com.eeenoooo.illustrator.colorratio.panel" Version="1.0.3"/>
   </ExtensionList>
   <ExecutionEnvironment>
     <HostList>

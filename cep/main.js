@@ -185,6 +185,23 @@
       setCoefficient(value);
     }
   });
+
+  coefficient.addEventListener("keydown", function (event) {
+    if (event.key !== "Enter" && event.key !== "Return") {
+      return;
+    }
+
+    event.preventDefault();
+    var value = validateCoefficient();
+    if (value === null) {
+      return;
+    }
+    setCoefficient(value);
+    if (window.confirm("適応しますか？")) {
+      applyCoefficient();
+    }
+  });
+
   addCoefficientWheelListener("wheel");
   addCoefficientWheelListener("mousewheel");
 

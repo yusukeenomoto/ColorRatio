@@ -63,6 +63,15 @@
 
       <footer id="status" class="status">オブジェクトを選択して係数を指定してください。</footer>
     </main>
+    <div id="confirmOverlay" class="confirm-overlay" hidden>
+      <div class="confirm-dialog" role="dialog" aria-modal="true" aria-labelledby="confirmMessage">
+        <p id="confirmMessage">カラー係数を適応しますか？</p>
+        <div class="confirm-actions">
+          <button id="confirmCancel" type="button">キャンセル</button>
+          <button id="confirmOk" class="primary" type="button">OK</button>
+        </div>
+      </div>
+    </div>
     <script src="./main.js"></script>
   </body>
 </html>

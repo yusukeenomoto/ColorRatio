@@ -13,9 +13,13 @@
   var applyButton = document.getElementById("apply");
   var resetButton = document.getElementById("reset");
   var status = document.getElementById("status");
+  var confirmOverlay = document.getElementById("confirmOverlay");
+  var confirmOk = document.getElementById("confirmOk");
+  var confirmCancel = document.getElementById("confirmCancel");
   var presetButtons = document.querySelectorAll("[data-factor]");
   var lastCoefficientWheelAt = 0;
   var statusHighlightTimer = null;
+  var pendingConfirmAction = null;
 
   function getPayload(coefficientValue) {
     return {
@@ -175,6 +179,26 @@
     return !!match && message.indexOf("スキップ") === -1 && message.indexOf("エラー") === -1;
   }
 
+  function showApplyConfirmation(callback) {
+    pendingConfirmAction = callback;
+    confirmOverlay.hidden = false;
+    confirmOk.focus();
+  }
+
+  function hideApplyConfirmation() {
+    confirmOverlay.hidden = true;
+    pendingConfirmAction = null;
+    coefficient.focus();
+  }
+
+  function confirmApply() {
+    var callback = pendingConfirmAction;
+    hideApplyConfirmation();
+    if (callback) {
+      callback();
+    }
+  }
+
   function clamp(value, min, max) {
     return Math.max(min, Math.min(max, value));
   }
@@ -197,9 +221,9 @@
       return;
     }
     setCoefficient(value);
-    if (window.confirm("適応しますか？")) {
+    showApplyConfirmation(function () {
       applyCoefficient();
-    }
+    });
   });
 
   addCoefficientWheelListener("wheel");
@@ -217,6 +241,19 @@
 
   applyButton.addEventListener("click", applyCoefficient);
   colorFamily.addEventListener("change", updateChannelOptions);
+  confirmOk.addEventListener("click", confirmApply);
+  confirmCancel.addEventListener("click", hideApplyConfirmation);
+  confirmOverlay.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      hideApplyConfirmation();
+      return;
+    }
+    if (event.key === "Enter" || event.key === "Return") {
+      event.preventDefault();
+      confirmApply();
+    }
+  });
 
   resetButton.addEventListener("click", function () {
     setCoefficient(1);
